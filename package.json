@@ -1,0 +1,51 @@
+{
+  "name": "playwright-framework",
+  "version": "1.0.0",
+  "description": "Playwright UI + API Automation Framework",
+  "main": "index.js",
+  "scripts": {
+    "// ---------- ENV BASE ----------": "",
+    "test_demo": "cross-env ENV_NAME=demo playwright test",
+    "test_qa": "cross-env ENV_NAME=qa playwright test",
+    "test_trunk": "cross-env ENV_NAME=trunk playwright test",
+    "// ---------- UI TESTS ----------": "",
+    "test_ui": "cross-env ENV_NAME=demo playwright test --project=chromium",
+    "test_ui_headed": "cross-env ENV_NAME=demo playwright test --project=chromium --headed",
+    "test_ui_firefox": "cross-env ENV_NAME=demo playwright test --project=firefox",
+    "test_ui_webkit": "cross-env ENV_NAME=demo playwright test --project=webkit",
+    "// ---------- API TESTS ----------": "",
+    "test_api": "cross-env ENV_NAME=demo playwright test --project=api",
+    "// ---------- FILTERED RUNS ----------": "",
+    "test_uat": "cross-env ENV_NAME=demo playwright test --grep=@UAT",
+    "test_visual": "cross-env ENV_NAME=demo playwright test --grep=@Visual",
+    "// ---------- DEBUG / DEV ----------": "",
+    "test_ui_debug": "cross-env ENV_NAME=demo playwright test --project=chromium --headed --ui",
+    "test_last-failed": "cross-env ENV_NAME=demo playwright test --last-failed",
+    "test_trace": "cross-env ENV_NAME=demo playwright test --trace on",
+    "// ---------- COMBINED ----------": "",
+    "test_all": "cross-env ENV_NAME=demo playwright test",
+    "test_ui+api": "cross-env ENV_NAME=demo playwright test --project=chromium --project=api",
+    "// ---------- REPORTS ----------": "",
+    "report": "playwright show-report",
+    "// ---------- ALLURE REPORTS ----------": "",
+    "allure_generate": "allure generate ./allure-results --clean -o ./allure-report",
+    "allure_open": "allure open ./allure-report",
+    "allure_serve": "allure serve ./allure-results"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "^25.6.0",
+    "allure-commandline": "^2.38.1",
+    "allure-playwright": "^3.7.1"
+  },
+  "dependencies": {
+    "cross-env": "^10.1.0",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^17.4.2"
+  }
+}
