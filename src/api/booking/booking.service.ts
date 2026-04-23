@@ -1,48 +1,46 @@
 import { APIRequestContext } from "@playwright/test";
 import { AuthService } from "../common/auth.service";
+import { BaseAPI } from "../../core/base/BaseAPI";
 
-export class BookingService {
+export class BookingService extends BaseAPI {
     private authService: AuthService;
 
-    constructor(private request: APIRequestContext) {
+    constructor(request: APIRequestContext) {
+        super(request);
         this.authService = new AuthService(request);
     }
 
     async getAllBookings() {
-        return this.request.get('/booking');
+        return this.get('/booking');
     }
 
     async getBookingById(id: number) {
-        return this.request.get(`/booking/${id}`);
+        return this.get(`/booking/${id}`);
     }
 
     async createBooking(payload: any) {
-        return this.request.post('/booking', { data: payload });
+        return this.post('/booking', payload);
     }
 
     async updateBooking(id: number, payload: any) {
-        const token = await this.authService.createToken();
-
-        return this.request.put(`/booking/${id}`, {
-            headers: { Cookie: `token=${token}` },
-            data: payload
-        });
+        const headers = await this.getAuthHeader();
+        return this.put(`/booking/${id}`, payload, headers);
     }
 
     async partialUpdateBooking(id: number, payload: any) {
-        const token = await this.authService.createToken();
-
-        return this.request.patch(`/booking/${id}`, {
-            headers: { Cookie: `token=${token}` },
-            data: payload
-        });
+        const headers = await this.getAuthHeader();
+        return this.patch(`/booking/${id}`, payload, headers);
     }
 
     async deleteBooking(id: number) {
-        const token = await this.authService.createToken();
+        const headers = await this.getAuthHeader();
+        return this.delete(`/booking/${id}`, headers);
+    }
 
-        return this.request.delete(`/booking/${id}`, {
-            headers: { Cookie: `token=${token}` }
-        });
+    private async getAuthHeader() {
+        const token = await this.authService.createToken();
+        return {
+            Cookie: `token=${token}`
+        };
     }
 }

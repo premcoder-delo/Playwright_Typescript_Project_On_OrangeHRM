@@ -8,9 +8,20 @@ test.use({
     }
 });
 
-test.describe('[Login Module] Negative Login Scenarios', () => {
+test.describe('[Login Module] Negative Login Scenarios', {
+    tag: ['@ui', '@regression', '@login', '@p1'],
+    annotation: {
+        type: 'Story Link',
+        description: 'https://jiraticket/Story-01'
+    }
+}, () => {
 
-    test('Invalid password', async ({ gotoUrl, loginPage, commonUtils }) => {
+    test('Invalid password', {
+        annotation: {
+            type: 'Test Case Link',
+            description: 'https://jiraticket/Test-01'
+        }
+    }, async ({ gotoUrl, loginPage, commonUtils }) => {
         const username = commonUtils.decryptData(process.env.APP_USERNAME!);
 
         await loginPage.loginOrangeHRM(username, loginData.invalid.password);
@@ -21,7 +32,12 @@ test.describe('[Login Module] Negative Login Scenarios', () => {
         await expect(loginPage.userNameInput).toBeVisible();
     });
 
-    test('Invalid username', async ({ gotoUrl, loginPage, commonUtils }) => {
+    test('Invalid username', {
+        annotation: {
+            type: 'Test Case Link',
+            description: 'https://jiraticket/Test-02'
+        }
+    }, async ({ gotoUrl, loginPage, commonUtils }) => {
         const password = commonUtils.decryptData(process.env.APP_PASSWORD!);
 
         await loginPage.loginOrangeHRM(loginData.invalid.username, password);
@@ -32,7 +48,13 @@ test.describe('[Login Module] Negative Login Scenarios', () => {
 
 });
 
-test('Valid login + visual checks', async ({ gotoUrl, loginPage, commonUtils, leftNavigationPage }) => {
+test('Valid login + visual checks', {
+    tag: ['@ui', '@smoke', '@login', '@p0', '@demo', '@qa', '@trunk'],
+    annotation: {
+        type: 'Test Case Link',
+        description: 'https://jiraticket/Test-03'
+    }
+}, async ({ gotoUrl, loginPage, commonUtils, leftNavigationPage }) => {
 
     const username = commonUtils.decryptData(process.env.APP_USERNAME!);
     const password = commonUtils.decryptData(process.env.APP_PASSWORD!);

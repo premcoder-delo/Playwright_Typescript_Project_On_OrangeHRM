@@ -1,27 +1,95 @@
 name: Playwright Tests
+
 on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment"
+        required: true
+        default: demo
+        type: choice
+        options:
+          - demo
+          - qa
+          - trunk
+
+      project:
+        description: "Select project (browser/API)"
+        required: true
+        default: chromium
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+          - api
+          - all
+
+      tags:
+        description: "Run by tag (optional, e.g. @smoke)"
+        required: false
+        default: ""
+
   push:
-    branches: [ main, master ]
+    branches: [main, master]
+
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      # Build dynamic command
+      - name: Run Playwright Tests
+        run: |
+          CMD="npx playwright test"
+
+          # Set project
+          if [ "${{ github.event.inputs.project }}" != "all" ]; then
+            CMD="$CMD --project=${{ github.event.inputs.project }}"
+          fi
+
+          # Add tag filter if provided
+          if [ -n "${{ github.event.inputs.tags }}" ]; then
+            CMD="$CMD --grep='${{ github.event.inputs.tags }}'"
+          fi
+
+          echo "Running: $CMD"
+          eval $CMD
+
+        env:
+          ENV_NAME: ${{ github.event.inputs.env || 'demo' }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
+      # Upload Playwright report
+      - name: Upload Playwright Report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      # Upload Allure results
+      - name: Upload Allure Results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results/
+          retention-days: 30
