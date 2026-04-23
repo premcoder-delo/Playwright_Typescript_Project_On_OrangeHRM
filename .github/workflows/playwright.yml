@@ -14,7 +14,7 @@ on:
           - trunk
 
       project:
-        description: "Select project (browser/API)"
+        description: "Select project"
         required: true
         default: chromium
         type: choice
@@ -26,7 +26,7 @@ on:
           - all
 
       tags:
-        description: "Run by tag (optional, e.g. @smoke)"
+        description: "Run by tag (optional, e.g. @smoke or @api)"
         required: false
         default: ""
 
@@ -42,41 +42,68 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # Checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      # Setup Node
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
+      # Install deps
       - name: Install dependencies
         run: npm ci
 
+      # Install browsers
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      # Build dynamic command
+      #  Run tests dynamically
       - name: Run Playwright Tests
         run: |
           CMD="npx playwright test"
 
-          # Set project
-          if [ "${{ github.event.inputs.project }}" != "all" ]; then
-            CMD="$CMD --project=${{ github.event.inputs.project }}"
+          PROJECT="${{ github.event.inputs.project }}"
+          TAGS="${{ github.event.inputs.tags }}"
+
+          echo "Selected Project: $PROJECT"
+          echo "Selected Tags: $TAGS"
+
+          # Apply project
+          if [ "$PROJECT" != "all" ]; then
+            CMD="$CMD --project=$PROJECT"
           fi
 
-          # Add tag filter if provided
-          if [ -n "${{ github.event.inputs.tags }}" ]; then
-            CMD="$CMD --grep='${{ github.event.inputs.tags }}'"
+          # Validate invalid combinations
+          if [[ "$PROJECT" == "chromium" || "$PROJECT" == "firefox" || "$PROJECT" == "webkit" ]]; then
+            if [[ "$TAGS" == *"@api"* ]]; then
+              echo "❌ ERROR: Cannot run @api tests on UI project ($PROJECT)"
+              exit 1
+            fi
           fi
 
-          echo "Running: $CMD"
+          if [[ "$PROJECT" == "api" ]]; then
+            if [[ "$TAGS" == *"@ui"* ]]; then
+              echo "❌ ERROR: Cannot run @ui tests on API project"
+              exit 1
+            fi
+          fi
+
+          # Apply tag filter
+          if [ -n "$TAGS" ]; then
+            CMD="$CMD --grep='$TAGS'"
+          fi
+
+          echo "🚀 Running Command: $CMD"
           eval $CMD
 
         env:
           ENV_NAME: ${{ github.event.inputs.env || 'demo' }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
-      # Upload Playwright report
+      # Upload Playwright HTML report
       - name: Upload Playwright Report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
@@ -85,7 +112,7 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      # Upload Allure results
+      # Upload Allure raw results
       - name: Upload Allure Results
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
