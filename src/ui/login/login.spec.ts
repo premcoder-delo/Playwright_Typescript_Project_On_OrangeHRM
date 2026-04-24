@@ -8,7 +8,7 @@ test.use({
     }
 });
 
-test.describe('[Login Module] Negative Login Scenarios', {
+test.describe('[Login] Negative Login Scenarios', {
     tag: ['@ui', '@regression', '@login', '@p1'],
     annotation: {
         type: 'Story Link',
@@ -16,7 +16,7 @@ test.describe('[Login Module] Negative Login Scenarios', {
     }
 }, () => {
 
-    test('Invalid password', {
+    test('[Login] Invalid password', {
         annotation: {
             type: 'Test Case Link',
             description: 'https://jiraticket/Test-01'
@@ -32,7 +32,7 @@ test.describe('[Login Module] Negative Login Scenarios', {
         await expect(loginPage.userNameInput).toBeVisible();
     });
 
-    test('Invalid username', {
+    test('[Login] Invalid username', {
         annotation: {
             type: 'Test Case Link',
             description: 'https://jiraticket/Test-02'
@@ -48,7 +48,7 @@ test.describe('[Login Module] Negative Login Scenarios', {
 
 });
 
-test('Valid login + visual checks', {
+test('[Login] Valid login + visual checks', {
     tag: ['@ui', '@smoke', '@login', '@p0', '@demo', '@qa', '@trunk'],
     annotation: {
         type: 'Test Case Link',

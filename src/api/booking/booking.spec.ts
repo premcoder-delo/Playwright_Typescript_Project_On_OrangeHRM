@@ -1,7 +1,7 @@
 import { test, expect } from '../../core/fixtures/api.fixture';
 import { createBookingPayload } from './booking.data';
 
-test('Get all bookings', {
+test('[API] Get all bookings', {
     tag: ['@api', '@smoke', '@booking', '@p0', '@demo']
 }, async ({ bookingService }) => {
     const response = await bookingService.getAllBookings();
@@ -11,7 +11,7 @@ test('Get all bookings', {
     expect(body.length).toBeGreaterThan(0);
 });
 
-test('Create booking', {
+test('[API] Create booking', {
     tag: ['@api', '@smoke', '@booking', '@p0', '@demo']
 }, async ({ bookingService }) => {
     const payload = createBookingPayload();
@@ -23,7 +23,7 @@ test('Create booking', {
     expect(body.booking).toMatchObject(payload);
 });
 
-test('Update booking', {
+test('[API] Update booking', {
     tag: ['@api', '@smoke', '@booking', '@p0', '@demo']
 }, async ({ bookingService }) => {
     const all = await bookingService.getAllBookings();
