@@ -12,3 +12,7 @@ export const createEmployeeData = (overrides: Partial<Employee> = {}): Employee 
         ...overrides
     };
 };
+
+export const pimTestData = {
+    employeeId: '0412'
+};

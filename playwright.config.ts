@@ -3,9 +3,9 @@ import './src/core/config/env';
 
 export default defineConfig({
   /* ---------------- GLOBAL SETTINGS ---------------- */
-
-  testDir: './src/ui',
-  timeout: 90000,
+  testDir: './src',
+  testMatch: ['**/*.spec.ts'],
+  timeout: 60000,
 
   expect: {
     timeout: 30000,
@@ -47,6 +47,7 @@ export default defineConfig({
     // UI Browsers
     {
       name: 'chromium',
+      testDir: './src/ui',
       use: {
         ...devices['Desktop Chrome'],
         storageState: './playwright/.auth/auth.json',
@@ -55,6 +56,7 @@ export default defineConfig({
     },
     {
       name: 'firefox',
+      testDir: './src/ui',
       use: {
         ...devices['Desktop Firefox'],
         storageState: './playwright/.auth/auth.json',
@@ -63,6 +65,7 @@ export default defineConfig({
     },
     {
       name: 'webkit',
+      testDir: './src/ui',
       use: {
         ...devices['Desktop Safari'],
         storageState: './playwright/.auth/auth.json',

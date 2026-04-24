@@ -4,6 +4,7 @@
   "description": "Playwright UI + API Automation Framework",
   "main": "index.js",
   "scripts": {
+    "test_dummy": "cross-env ENV_NAME=demo playwright test --project=chromium --project=api --headed --ui",
     "// ---------- ENV BASE ----------": "",
     "test_demo": "cross-env ENV_NAME=demo playwright test",
     "test_qa": "cross-env ENV_NAME=qa playwright test",
@@ -30,7 +31,7 @@
     "test_uat": "cross-env ENV_NAME=demo playwright test --grep=@UAT",
     "test_visual": "cross-env ENV_NAME=demo playwright test --grep=@Visual",
     "// ---------- DEBUG / DEV ----------": "",
-    "test_ui_debug": "cross-env ENV_NAME=demo playwright test --project=chromium --headed --ui",
+    "test_ui_debug": "cross-env ENV_NAME=demo playwright test --project=chromium --project=api --headed --ui",
     "test_last-failed": "cross-env ENV_NAME=demo playwright test --last-failed",
     "test_trace": "cross-env ENV_NAME=demo playwright test --trace on",
     "// ---------- COMBINED ----------": "",
