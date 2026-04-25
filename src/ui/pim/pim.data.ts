@@ -14,5 +14,25 @@ export const createEmployeeData = (overrides: Partial<Employee> = {}): Employee 
 };
 
 export const pimTestData = {
-    employeeId: '0412'
+    employeeIdToDelete: '0412',
+    searchEmployee: {
+        employeeName: 'Viyaan Adharv Sandra',
+        employeeId: 'VA123',
+        expectedRecordText: '(1) Record Found',
+        expectedTableText: 'VA123Viyaan AdharvSandra'
+    },
+
+    editEmployee: {
+        firstName: 'Lary',
+        middleName: 'Maddy',
+        lastName: 'Sandra',
+        employeeId: 'VA1234',
+        nationality: 'Indian',
+        gender: 'Male',
+        maritalStatus: 'Single',
+        dob: '1998-04-07',
+        bloodType: 'A+',
+        customField: 'Tester',
+        successMessage: 'Success'
+    }
 };

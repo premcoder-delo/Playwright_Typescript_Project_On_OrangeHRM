@@ -16,5 +16,6 @@ export class LeftNavigationPage extends BasePage {
 
     async openPIMVerticalTab() {
         await this.pimVerticalTab.click();
+        await this.waitForLoaderToDisappear();
     }
 }
