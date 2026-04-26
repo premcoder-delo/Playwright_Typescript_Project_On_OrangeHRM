@@ -17,7 +17,7 @@ export class LoginPage extends BasePage {
     }
 
     async goToOrangeHRM() {
-        await this.page.goto(`${process.env.BASE_URL}/web/index.php/auth/login`);
+        await this.page.goto(`${process.env.BASE_URL}/web/index.php/dashboard/index`);
         await this.waitForPageLoad();
     }
 
