@@ -6,6 +6,7 @@ import { DashboardPage } from '../../ui/common/dashboard.page';
 import { UserProfilePage } from '../../ui/common/userProfile.page';
 import { LeftNavigationPage } from '../../ui/common/leftNavigation.page';
 import { PIMPage } from '../../ui/pim/pim.page';
+import { RecruitmentPage } from '../../ui/recruitment/recruitment.page';
 
 type PomFixtures = {
     loginPage: LoginPage;
@@ -13,6 +14,7 @@ type PomFixtures = {
     userProfilePage: UserProfilePage;
     leftNavigationPage: LeftNavigationPage;
     pimPage: PIMPage;
+    recruitmentPage: RecruitmentPage
 };
 
 export const test = base.extend<PomFixtures>({
@@ -30,5 +32,8 @@ export const test = base.extend<PomFixtures>({
     },
     pimPage: async ({ page }, use) => {
         await use(new PIMPage(page));
-    }
+    },
+    recruitmentPage: async ({ page }, use) => {
+        await use(new RecruitmentPage(page));
+    },
 });

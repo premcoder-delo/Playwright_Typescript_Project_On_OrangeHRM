@@ -20,7 +20,7 @@ test('[PIM] Create employee in PIM', {
 });
 
 test('[PIM] Edit Employee Details', {
-    tag: ['@ui', '@pim', '@regression', '@p1', '@new1'],
+    tag: ['@ui', '@pim', '@regression', '@p1'],
     annotation: {
         type: 'Test Case Link',
         description: 'https://jiraticket/Test-07'
@@ -72,7 +72,7 @@ test('[PIM] Delete employee by ID', {
 });
 
 test('[PIM] Search Employee Details', {
-    tag: ['@ui', '@pim', '@regression', '@p3', '@new'],
+    tag: ['@ui', '@pim', '@regression', '@p3'],
     annotation: {
         type: 'Test Case Link',
         description: 'https://jiraticket/Test-06'
