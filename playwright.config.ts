@@ -21,8 +21,8 @@ export default defineConfig({
 
   reporter: [
     ['list'],
-    ['html', { open: 'never' }],
-    ['allure-playwright']
+    ['html', { outputFolder: 'reports/html-report', open: 'never' }],
+    ['allure-playwright', { outputFolder: 'reports/allure-results' }]
   ],
 
   outputDir: 'test-results/',
