@@ -43,6 +43,20 @@ export default defineConfig({
       name: 'setup',
       testMatch: 'src/ui/login/global.setup.ts',
     },
+    {
+      name: 'ios-setup',
+      testMatch: 'src/ui/login/mobile.global.setup.ts',
+      use: {
+        ...devices['iPhone 14 Pro'],
+      },
+    },
+    {
+      name: 'android-setup',
+      testMatch: 'src/ui/login/mobile.global.setup.ts',
+      use: {
+        ...devices['Pixel 7'],
+      },
+    },
 
     // UI Browsers
     {
@@ -85,6 +99,34 @@ export default defineConfig({
           'Content-Type': 'application/json',
         },
       },
+    },
+    //A11y Tests (Accessibility Tests)
+    {
+      name: 'a11y',
+      testDir: './src/accessibility',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: './playwright/.auth/auth.json',
+      },
+      dependencies: ['setup'],
+    },
+    {
+      name: 'mobile-ios',
+      testDir: './src/ui',
+      use: {
+        ...devices['iPhone 14 Pro'],
+        storageState: './playwright/.auth/ios-auth.json',
+      },
+      dependencies: ['ios-setup'],
+    },
+    {
+      name: 'mobile-android',
+      testDir: './src/ui',
+      use: {
+        ...devices['Pixel 7'],
+        storageState: './playwright/.auth/android-auth.json',
+      },
+      dependencies: ['android-setup'],
     },
   ],
 });
