@@ -1,6 +1,18 @@
 import { test, expect } from '../../core/fixtures/hooks.fixture';
+import { cleanFolder } from '../../core/utils/fileUtils';
 
-test('global setup for auto login', async ({ page, loginPage, commonUtils, dashboardPage }) => {
+test('global setup for auto login', async ({
+    page,
+    loginPage,
+    commonUtils,
+    dashboardPage
+}) => {
+
+    // Clean logs before execution starts
+    cleanFolder('reports/logs');
+    cleanFolder('test-results')
+    cleanFolder('reports/allure-results')
+    cleanFolder('temp')
 
     const username = commonUtils.decryptData(process.env.APP_USERNAME!);
     const password = commonUtils.decryptData(process.env.APP_PASSWORD!);

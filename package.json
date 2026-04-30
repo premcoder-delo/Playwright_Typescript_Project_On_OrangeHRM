@@ -33,7 +33,7 @@
     "test_uat": "cross-env ENV_NAME=demo playwright test --grep=@UAT",
     "test_visual": "cross-env ENV_NAME=demo playwright test --grep=@Visual",
     "// ---------- DEBUG / DEV ----------": "",
-    "test_ui_debug": "cross-env ENV_NAME=demo playwright test --project=chromium --project=api --headed --ui",
+    "test_ui_debug": "cross-env ENV_NAME=demo playwright test --headed --ui",
     "test_last-failed": "cross-env ENV_NAME=demo playwright test --last-failed",
     "test_trace": "cross-env ENV_NAME=demo playwright test --trace on",
     "// ---------- COMBINED ----------": "",

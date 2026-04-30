@@ -8,16 +8,23 @@ if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir, { recursive: true });
 }
 
-export const getLogger = (moduleName: string) => {
+export const getLogger = (
+    moduleName: string,
+    testName?: string,
+    projectName?: string
+) => {
     return winston.createLogger({
         level: 'info',
         format: winston.format.combine(
             winston.format.timestamp({
                 format: 'YYYY-MM-DD HH:mm:ss'
             }),
-            winston.format.printf(({ timestamp, level, message }) =>
-                `${timestamp} [${moduleName.toUpperCase()}] ${level.toUpperCase()} - ${message}`
-            )
+            winston.format.printf(({ timestamp, level, message }) => {
+                const testPart = testName ? ` [${testName}]` : '';
+                const projectPart = projectName ? ` [${projectName}]` : '';
+
+                return `${timestamp} [${moduleName.toUpperCase()}]${testPart}${projectPart} ${level.toUpperCase()} - ${message}`;
+            })
         ),
         transports: [
             new winston.transports.Console(),
