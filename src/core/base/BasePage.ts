@@ -18,16 +18,40 @@ export class BasePage {
     }
 
     async waitForLoaderToDisappear(timeout: number = 10000) {
+        try {
+            await this.loaderSpinner.waitFor({
+                state: 'visible',
+                timeout: 2000
+            });
+        } catch {
+            // loader never appeared
+        }
+
         await this.loaderSpinner.waitFor({
             state: 'hidden',
             timeout
         }).catch(() => {
-            // spinner may not appear on every page action
+            // already hidden / detached
         });
     }
 
     async waitForPageReady() {
         await this.waitForPageLoad();
         await this.waitForLoaderToDisappear();
+    }
+
+    async clickWhenReady(locator: Locator) {
+        await this.waitForLoaderToDisappear();
+        await locator.waitFor({ state: 'visible' });
+        await locator.click();
+    }
+
+    async fillWhenReady(locator: Locator, value: string) {
+        await locator.waitFor({ state: 'visible' });
+        await locator.fill(value);
+    }
+
+    async isMobileView(): Promise<boolean> {
+        return await this.page.locator('.oxd-topbar-header-hamburger').isVisible();
     }
 }

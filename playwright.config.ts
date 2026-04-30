@@ -5,6 +5,7 @@ export default defineConfig({
   /* ---------------- GLOBAL SETTINGS ---------------- */
   testDir: './src',
   testMatch: ['**/*.spec.ts'],
+  globalTeardown: './src/core/teardown/global.teardown.ts',
   timeout: 60000,
 
   expect: {
