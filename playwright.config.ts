@@ -1,5 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 import './src/core/config/env';
+import { executionConfig } from './src/core/config/execution.config';
+import { lambdaTestConfig } from './src/core/config/lambdatest.config';
+import { getChromiumCapabilities } from './src/core/config/capabilities/chromium.capabilities';
+import { getFirefoxCapabilities } from './src/core/config/capabilities/firefox.capabilities';
+import { getWebkitCapabilities } from './src/core/config/capabilities/webkit.capabilities';
 
 export default defineConfig({
   /* ---------------- GLOBAL SETTINGS ---------------- */
@@ -33,7 +38,9 @@ export default defineConfig({
 
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
-    video: 'retain-on-failure',
+    video: executionConfig.isLambdaTest
+      ? 'off'
+      : 'retain-on-failure',
   },
 
   /* ---------------- PROJECTS ---------------- */
@@ -63,10 +70,20 @@ export default defineConfig({
     {
       name: 'chromium',
       testDir: './src/ui',
+
       use: {
         ...devices['Desktop Chrome'],
         storageState: './playwright/.auth/auth.json',
+
+        connectOptions: executionConfig.isLambdaTest
+          ? {
+            wsEndpoint: `${lambdaTestConfig.wsEndpoint}?capabilities=${encodeURIComponent(
+              JSON.stringify(getChromiumCapabilities('Chromium UI Tests'))
+            )}`,
+          }
+          : undefined,
       },
+
       dependencies: ['setup'],
     },
     {
@@ -75,6 +92,13 @@ export default defineConfig({
       use: {
         ...devices['Desktop Firefox'],
         storageState: './playwright/.auth/auth.json',
+        connectOptions: executionConfig.isLambdaTest
+          ? {
+            wsEndpoint: `${lambdaTestConfig.wsEndpoint}?capabilities=${encodeURIComponent(
+              JSON.stringify(getFirefoxCapabilities('Firefox UI Tests'))
+            )}`,
+          }
+          : undefined,
       },
       dependencies: ['setup'],
     },
@@ -84,6 +108,13 @@ export default defineConfig({
       use: {
         ...devices['Desktop Safari'],
         storageState: './playwright/.auth/auth.json',
+        connectOptions: executionConfig.isLambdaTest
+          ? {
+            wsEndpoint: `${lambdaTestConfig.wsEndpoint}?capabilities=${encodeURIComponent(
+              JSON.stringify(getWebkitCapabilities('Webkit UI Tests'))
+            )}`,
+          }
+          : undefined,
       },
       dependencies: ['setup'],
     },
