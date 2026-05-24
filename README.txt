@@ -9,21 +9,24 @@ PlaywrightProjectForOrangeHRM/
 ├── env-files/
 │   ├── .env.demo
 │   ├── .env.qa
-│   └── .env.prod
+│   ├── .env.prod
+│   └── .env.lambdatest
 │
 ├── playwright/
 │   └── .auth/
-│       └── auth.json
-│       └── ios-auth.json
-│       └── andriod-auth.json
+│       ├── auth.json
+│       ├── ios-auth.json
+│       └── android-auth.json
 │
 ├── reports/
 │   ├── html-report/
 │   ├── allure-results/
 │   └── logs/
+│       ├── test.log
+│       ├── teardown.log
 │       ├── pim.log
-│       ├── login.log
-│       └── recruitment.log
+│       ├── recruitment.log
+│       └── api.log
 │
 ├── test-results/
 │   ├── screenshots/
@@ -33,14 +36,26 @@ PlaywrightProjectForOrangeHRM/
 │
 └── src/
     ├── core/
+    │
     │   ├── base/
-    │   │   └── BasePage.ts
+    │   │   ├── BasePage.ts
+    │   │   └── BaseAPI.ts
     │   │
     │   ├── components/
     │   │   └── TableComponent.ts
     │   │
     │   ├── config/
-    │   │   └── env.ts
+    │   │   ├── env.ts
+    │   │   ├── execution.config.ts
+    │   │   ├── lambdatest.config.ts
+    │   │   ├── remote.browser.ts
+    │   │   ├── global.teardown.ts
+    │   │   │
+    │   │   └── capabilities/
+    │   │       ├── chromium.capabilities.ts
+    │   │       ├── firefox.capabilities.ts
+    │   │       ├── webkit.capabilities.ts
+    │   │       └── mobile.capabilities.ts
     │   │
     │   ├── db/
     │   │   ├── sqlite.ts
@@ -49,6 +64,8 @@ PlaywrightProjectForOrangeHRM/
     │   │   └── orangehrm.db
     │   │
     │   ├── fixtures/
+    │   │   ├── ui.fixture.ts
+    │   │   ├── api.fixture.ts
     │   │   └── hooks.fixture.ts
     │   │
     │   ├── logger/
@@ -56,9 +73,11 @@ PlaywrightProjectForOrangeHRM/
     │   │
     │   └── utils/
     │       ├── commonUtils.ts
-    │       └── cryptoUtils.ts
+    │       ├── FileUtils.ts
+    │       └── lambdatest.utils.ts
     │
     ├── ui/
+    │
     │   ├── login/
     │   │   ├── login.page.ts
     │   │   ├── login.data.ts
@@ -66,8 +85,14 @@ PlaywrightProjectForOrangeHRM/
     │   │   ├── global.setup.ts
     │   │   └── mobile.global.setup.ts
     │   │
+    │   ├── dashboard/
+    │   │   └── dashboard.page.ts
+    │   │
     │   ├── leftNavigation/
     │   │   └── leftNavigation.page.ts
+    │   │
+    │   ├── userProfile/
+    │   │   └── userProfile.page.ts
     │   │
     │   ├── pim/
     │   │   ├── pim.page.ts
@@ -80,11 +105,15 @@ PlaywrightProjectForOrangeHRM/
     │       ├── recruitment.data.ts
     │       └── recruitment.spec.ts
     │
-    └── api/
-    │   └── booking/
-    │       ├── booking.spec.ts
-    │       ├── booking.data.ts
-    │       └── booking.api.ts
+    ├── api/
     │
-    └── accesibility/
+    │   ├── common/
+    │   │   └── auth.service.ts
+    │   │
+    │   └── booking/
+    │       ├── booking.service.api.ts
+    │       ├── booking.spec.ts
+    │       └── booking.data.ts
+    │
+    └── accessibility/
         └── login.a11y.spec.ts

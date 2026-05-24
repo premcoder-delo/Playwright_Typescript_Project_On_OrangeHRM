@@ -4,7 +4,7 @@
   "description": "Playwright UI + API Automation Framework",
   "main": "index.js",
   "scripts": {
-    "test_dummy": "cross-env ENV_NAME=demo playwright test --project=chromium --project=api --headed --ui",
+    "test_dummyLambdaTest": "cross-env ENV_NAME=lambdatest playwright test src/ui/recruitment/recruitment.spec.ts --project=chromium",
     "// ---------- ENV BASE ----------": "",
     "test_demo": "cross-env ENV_NAME=demo playwright test",
     "test_qa": "cross-env ENV_NAME=qa playwright test",
